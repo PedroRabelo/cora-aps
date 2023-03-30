@@ -1,0 +1,12 @@
+services:
+  cora-postgresql-dev:
+    image: postgres:latest
+    volumes:
+      - ../../../.volumes/soucora/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=cora
+      - POSTGRES_PASSWORD=cora
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=soucora
+    ports:
+      - "5432:5432"
