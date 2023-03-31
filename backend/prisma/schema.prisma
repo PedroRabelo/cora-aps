@@ -14,7 +14,7 @@ model Tenant {
   active    Boolean  @default(true)
 
   name        String
-  cpnj        String  @unique
+  cnpj        String  @unique
   slug        String  @unique
   email       String
   phoneNumber String?
