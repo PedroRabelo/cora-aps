@@ -13,10 +13,10 @@ import Link from 'next/link'
 import { Fragment, useState } from 'react'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Clientes', href: '/clients', icon: UsersIcon, current: false },
-  { name: 'Pacientes', href: '/patients', icon: UserCircleIcon, current: false },
-  { name: 'Usuários', href: '/users', icon: UserGroupIcon, current: false },
+  { name: 'Dashboard', href: '/admin', icon: HomeIcon, current: true },
+  { name: 'Clientes', href: '/admin/clients', icon: UsersIcon, current: false },
+  { name: 'Pacientes', href: '/admin/patients', icon: UserCircleIcon, current: false },
+  { name: 'Usuários', href: '/admin/users', icon: UserGroupIcon, current: false },
 ]
 
 function classNames(...classes: string[]) {
