@@ -9,9 +9,13 @@ const cols = [
 ]
 
 const people = [
-  { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-  { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+  { id: 1, name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+  { id: 2, name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
 ]
+
+export const metadata = {
+  title: 'Cora Saúde | Clientes',
+}
 
 export default function Clients({ searchParams }: { [key: string]: string | string[] | undefined }) {
 

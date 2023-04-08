@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }: Props) {
   return (
     <>
       <div>
-        <AdminSidebar />
+        <AdminSidebar username={result.name} />
         <main className="py-10 lg:pl-72">
           <div className="px-4 sm:px-6 lg:px-8">
             {children}

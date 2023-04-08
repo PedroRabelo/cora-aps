@@ -3,27 +3,17 @@
 import { Dialog, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
-  HomeIcon,
-  UserCircleIcon,
-  UserGroupIcon,
-  UsersIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
+import { MenuNavigation } from './MenuNavigation'
 
-const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon, current: true },
-  { name: 'Clientes', href: '/admin/clients', icon: UsersIcon, current: false },
-  { name: 'Pacientes', href: '/admin/patients', icon: UserCircleIcon, current: false },
-  { name: 'Usuários', href: '/admin/users', icon: UserGroupIcon, current: false },
-]
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+interface Props {
+  username: string;
 }
 
-export function AdminSidebar() {
+export function AdminSidebar({ username }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -76,26 +66,7 @@ export function AdminSidebar() {
                   </div>
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                      <li>
-                        <ul role="list" className="-mx-2 space-y-1">
-                          {navigation.map((item) => (
-                            <li key={item.name}>
-                              <Link
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? 'bg-gray-800 text-white'
-                                    : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                )}
-                              >
-                                <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
-                                {item.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
+                      <MenuNavigation />
                     </ul>
                   </nav>
                 </div>
@@ -114,36 +85,17 @@ export function AdminSidebar() {
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-800 text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
+              <MenuNavigation />
               <li className="-mx-6 mt-auto">
                 <Link
                   href="#"
                   className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
                 >
                   <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-800 text-white">
-                    T
+                    {username.slice(0, 1)}
                   </span>
                   <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">Tom Cook</span>
+                  <span aria-hidden="true">{username}</span>
                 </Link>
               </li>
             </ul>
@@ -160,7 +112,7 @@ export function AdminSidebar() {
         <Link href="#">
           <span className="sr-only">Your profile</span>
           <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-800 text-white">
-            T
+            {username.slice(0, 1)}
           </span>
         </Link>
       </div>
