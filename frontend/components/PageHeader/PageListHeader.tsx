@@ -4,6 +4,7 @@ import { KeyboardEvent, useCallback, useState } from 'react';
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { Button } from '../UI/Button';
 
 type Props = {
   title: string;
@@ -59,25 +60,21 @@ export function PageListHeader({ title, createLink }: Props) {
             onKeyDown={(e) => handleSearchEnter(e)}
           />
         </div>
-        <button
+        <Button
           type="button"
-          className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          format="ROUNDED"
+          Icon={MagnifyingGlassIcon}
           onClick={() => handleSearch()}
-        >
-          Button text
-          <MagnifyingGlassIcon className="-mr-0.5 h-6 w-6" aria-hidden="true" />
-        </button>
-
+        />
       </div>
       {createLink &&
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <Link href={createLink}>
-            <button
-              className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Novo
-              <PlusIcon className="ml-2 h-5 w-5" />
-            </button>
+            <Button
+              type="button"
+              Icon={PlusIcon}
+              title="Novo Cliente"
+            />
           </Link>
         </div>
       }

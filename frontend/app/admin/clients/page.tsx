@@ -1,4 +1,17 @@
 import { PageListHeader } from "@/components/PageHeader/PageListHeader";
+import { Datatable } from "@/components/UI/Datatable";
+
+const cols = [
+  { alias: 'name', title: 'Nome' },
+  { alias: 'title', title: 'Titulo' },
+  { alias: 'email', title: 'Email' },
+  { alias: 'role', title: 'Perfil' },
+]
+
+const people = [
+  { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+  { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+]
 
 export default function Clients({ searchParams }: { [key: string]: string | string[] | undefined }) {
 
@@ -9,6 +22,10 @@ export default function Clients({ searchParams }: { [key: string]: string | stri
       <PageListHeader
         title="Clientes"
         createLink="/clients/create"
+      />
+      <Datatable
+        cols={cols}
+        rows={people}
       />
     </div>
   )
