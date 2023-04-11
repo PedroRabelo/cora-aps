@@ -1,13 +1,23 @@
-import { ButtonHTMLAttributes, SVGProps } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, SVGProps } from "react";
+import { Spinner } from "./Spinner";
+import clsx from "clsx";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   Icon?: React.ForwardRefExoticComponent<Omit<React.SVGProps<SVGSVGElement>, "ref">>
   format?: "ROUNDED" | "SQUARE"
+  outline?: boolean
+  loading?: boolean
 }
 
 export function Button(
   {
-    Icon, format = "SQUARE", title, type, ...rest
+    Icon,
+    format = "SQUARE",
+    outline = false,
+    loading = false,
+    title,
+    type,
+    ...rest
   }: Props) {
   return (
     <>
@@ -25,11 +35,17 @@ export function Button(
 
       {format === "SQUARE" &&
         <button
-          type="button"
-          className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          type={type}
+          className={clsx(outline ? "text-black bg-white hover:bg-gray-100" : "text-white  bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600",
+            "inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
+          )}
+          disabled={loading}
         >
           {title}
-          {Icon && (
+          {loading && (
+            <Spinner />
+          )}
+          {Icon && !loading && (
             <Icon className="h-5 w-5" aria-hidden="true" />
           )}
         </button>
@@ -37,3 +53,5 @@ export function Button(
     </>
   )
 }
+
+//""

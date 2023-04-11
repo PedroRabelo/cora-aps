@@ -25,7 +25,7 @@ export default function Clients({ searchParams }: { [key: string]: string | stri
     <div className="px-4 sm:px-6 lg:px-8">
       <PageListHeader
         title="Clientes"
-        createLink="/clients/create"
+        createLink="/admin/clients/new"
       />
       <Datatable
         cols={cols}
