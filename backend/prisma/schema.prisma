@@ -19,7 +19,8 @@ model Tenant {
   email       String
   phoneNumber String?
 
-  users User[]
+  users    User[]
+  patients Patient[]
 
   @@map("tenants")
 }
@@ -39,7 +40,178 @@ model User {
   tenant   Tenant @relation(fields: [tenantId], references: [id])
   tenantId String
 
+  professional Professional?
+
   @@map("users")
+}
+
+model Professional {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  cpf         String    @unique
+  name        String
+  birthDate   DateTime?
+  gender      String
+  phoneNumber String
+  email       String
+
+  provider          ProfessionalProvider
+  providerNumber    String
+  providerCountry   String
+  function          ProfessionalFunction
+  linkVirtualOffice String?
+
+  specialty   Specialty? @relation(fields: [specialtyId], references: [id])
+  specialtyId String?
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  patients PatientHealthRecord[]
+
+  @@map("professionals")
+}
+
+model Specialty {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  name         String
+  group        String?
+  Professional Professional[]
+
+  @@map("specialties")
+}
+
+model Patient {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+  tenantId String
+
+  cpf         String        @unique
+  name        String
+  birthDate   DateTime
+  gender      String
+  phoneNumber String
+  email       String
+  status      PatientStatus
+
+  healthRecord PatientHealthRecord[]
+
+  @@map("patients")
+}
+
+model PatientHealthRecord {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient        Patient      @relation(fields: [patientId], references: [id])
+  patientId      String
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  professionalId String
+
+  startDate DateTime
+  riskGroup String
+  careLine  String
+
+  vitalSigns PatientVitalSigns[]
+  measures   PatientMeasure[]
+
+  @@map("patient_ehr")
+}
+
+model PatientVitalSigns {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
+  healthRecordId String
+
+  measurementDate      DateTime
+  measurementBy        String
+  temperature          Float?
+  diastolicPressure    Float?
+  systolicPressure     Float?
+  heartRate            Float?
+  respiratoryFrequency Float?
+  oxygenSaturation     Float?
+
+  @@map("patient_vital_signs")
+}
+
+model PatientMeasure {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
+  healthRecordId String
+
+  measurementDate        DateTime
+  measurementBy          String
+  height                 Float
+  weight                 Float
+  imc                    Float
+  abdominalCircumference Float
+
+  @@map("patient_measures")
+}
+
+model PatientVitalSignsHistory {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  healthRecordId String
+
+  measurementDate      DateTime
+  measurementBy        String
+  temperature          Float?
+  diastolicPressure    Float?
+  systolicPressure     Float?
+  heartRate            Float?
+  respiratoryFrequency Float?
+  oxygenSaturation     Float?
+
+  @@index([healthRecordId])
+  @@map("patient_vital_signs_history")
+}
+
+model PatientMeasureHistory {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  healthRecordId String
+
+  measurementDate        DateTime
+  measurementBy          String
+  height                 Float
+  weight                 Float
+  imc                    Float
+  abdominalCircumference Float
+
+  @@index([healthRecordId])
+  @@map("patient_measures_history")
+}
+
+enum PatientStatus {
+  WAITING_CONFIRMATION
+  INITIAL_EVALUATION
+  ACTIVE
+  SUSPENDED
+  PENDING_PAYMENT
 }
 
 enum Role {
@@ -47,4 +219,16 @@ enum Role {
   CORA_MANAGER
   TENANT_ADMIN
   TENANT_USER
+}
+
+enum ProfessionalProvider {
+  CRM
+  CRP
+  COREN
+}
+
+enum ProfessionalFunction {
+  DOCTOR
+  NURSE
+  PSYCHOLOGY
 }
