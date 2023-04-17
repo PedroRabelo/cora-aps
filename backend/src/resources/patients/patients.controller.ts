@@ -5,26 +5,26 @@ import { UpdatePatientDto } from './dto/update-patient.dto';
 
 @Controller('patients')
 export class PatientsController {
-  constructor(private readonly patientsService: PatientsService) {}
+  constructor(private readonly patientsService: PatientsService) { }
 
   @Post()
   create(@Body() createPatientDto: CreatePatientDto) {
     return this.patientsService.create(createPatientDto);
   }
 
-  @Get()
-  findAll() {
-    return this.patientsService.findAll();
+  @Get('/tenant/:tenandId')
+  findAllByTenant(@Param('tenantId') tenantId: string) {
+    return this.patientsService.findAllByTenant(tenantId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.patientsService.findOne(+id);
+    return this.patientsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientsService.update(+id, updatePatientDto);
+    return this.patientsService.update(id, updatePatientDto);
   }
 
   @Delete(':id')

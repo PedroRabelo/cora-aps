@@ -8,9 +8,22 @@ import { PrismaModule } from './prisma/prisma.module';
 import { TenantsModule } from './resources/tenants/tenants.module';
 import { ProfessionalsModule } from './resources/professionals/professionals.module';
 import { PatientsModule } from './resources/patients/patients.module';
+import { MailModule } from './mail/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [PrismaModule, AuthModule, TenantsModule, ProfessionalsModule, PatientsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MailModule,
+    PrismaModule,
+    AuthModule,
+    TenantsModule,
+    ProfessionalsModule,
+    PatientsModule,
+    MailModule
+  ],
   controllers: [AppController],
   providers: [
     AppService,
