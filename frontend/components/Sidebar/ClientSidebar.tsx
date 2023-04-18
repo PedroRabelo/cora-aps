@@ -4,8 +4,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   HomeIcon,
+  UserCircleIcon,
   UserGroupIcon,
-  UsersIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -17,12 +17,12 @@ interface Props {
 }
 
 const navigation: MenuSidebar[] = [
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon },
-  { name: 'Clientes', href: '/admin/clients', icon: UsersIcon },
-  { name: 'Usuários', href: '/admin/users', icon: UserGroupIcon },
+  { name: 'Dashboard', href: '/client', icon: HomeIcon },
+  { name: 'Pacientes', href: '/client/patients', icon: UserCircleIcon },
+  { name: 'Usuários', href: '/client/users', icon: UserGroupIcon },
 ]
 
-export function AdminSidebar({ username }: Props) {
+export function ClientSidebar({ username }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -71,7 +71,7 @@ export function AdminSidebar({ username }: Props) {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
                   <div className="flex h-16 shrink-0 items-center">
-                    <h2>Painel admin</h2>
+                    <h2>Cora Saúde</h2>
                   </div>
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -90,7 +90,7 @@ export function AdminSidebar({ username }: Props) {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <h2 className="text-white text-bold text-xl">Painel Admin</h2>
+            <h2 className="text-white text-bold text-xl">Cora Saúde</h2>
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">

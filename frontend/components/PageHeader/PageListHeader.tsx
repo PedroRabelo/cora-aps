@@ -73,7 +73,7 @@ export function PageListHeader({ title, createLink }: Props) {
             <Button
               type="button"
               Icon={PlusIcon}
-              title="Novo Cliente"
+              title="Adicionar"
             />
           </Link>
         </div>

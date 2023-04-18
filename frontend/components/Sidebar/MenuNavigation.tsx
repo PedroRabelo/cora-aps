@@ -1,29 +1,26 @@
 'use client'
 
+import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  HomeIcon,
-  UserCircleIcon,
-  UserGroupIcon,
-  UsersIcon
-} from '@heroicons/react/24/outline'
-import clsx from 'clsx'
 
-const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon, current: true },
-  { name: 'Clientes', href: '/admin/clients', icon: UsersIcon, current: false },
-  { name: 'Pacientes', href: '/admin/patients', icon: UserCircleIcon, current: false },
-  { name: 'Usuários', href: '/admin/users', icon: UserGroupIcon, current: false },
-]
+export type MenuSidebar = {
+  name: string;
+  href: string;
+  icon: React.ForwardRefExoticComponent<Omit<React.SVGProps<SVGSVGElement>, "ref">>
+}
 
-export function MenuNavigation() {
+interface Props {
+  menu: MenuSidebar[]
+}
+
+export function MenuNavigation({ menu }: Props) {
   const pathname = usePathname();
 
   return (
     <li>
       <ul role="list" className="-mx-2 space-y-1">
-        {navigation.map((item) => (
+        {menu.map((item) => (
           <li key={item.name}>
             <Link
               href={item.href}
