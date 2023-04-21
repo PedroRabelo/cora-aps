@@ -4,11 +4,16 @@ import { FormInput } from '@/components/Form/FormInput'
 import { FormInputMask } from '@/components/Form/FormInputMask'
 import { Button } from '@/components/UI/Button'
 import { RadioButton } from '@/components/UI/RadioButton'
+import { handleToastError, handleToastSuccess } from '@/lib/toastify'
 import { CreatePatientDTO } from '@/types/Patient'
+import { BusinessError } from '@/types/errors'
+import cpfValidation from '@/utils/cpfValidate'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import Link from 'next/link'
 import * as Yup from 'yup'
+import { getCookie } from 'cookies-next'
+import { formatDateJson } from '@/utils/formatDate'
 
 const schemaValidation = Yup.object({
   cpf: Yup.string().required('CPF obrigatório'),
@@ -40,7 +45,56 @@ export function PatientForm({ tenantId }: Props) {
         values: CreatePatientDTO,
         { setSubmitting, resetForm }: FormikHelpers<CreatePatientDTO>
       ) => {
-        console.log(values);
+        try {
+          values.cpf = values.cpf.replace(/[^\d]/g, '');
+          values.phoneNumber = values.phoneNumber.replace(/[^\d]/g, '');
+          const birthDateJson = formatDateJson(values.birthDate);
+
+          const cpf = cpfValidation(values.cpf)
+          if (!cpf) {
+            handleToastError('CPF inválido')
+            return;
+          }
+
+          const payload: CreatePatientDTO = {
+            tenantId: values.tenantId,
+            cpf: values.cpf,
+            name: values.name,
+            birthDate: birthDateJson,
+            gender: values.gender,
+            phoneNumber: values.phoneNumber,
+            email: values.email
+          }
+
+          const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/patients`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getCookie('cora-jwt')}`
+            },
+            body: JSON.stringify(payload)
+          })
+
+          const response = await result.json()
+
+          if (response.message?.length > 0) {
+            handleToastError(response.message);
+            return;
+          }
+
+          setSubmitting(false);
+          handleToastSuccess('Paciente cadastrado com sucesso')
+          resetForm();
+        } catch (error) {
+          console.error(error);
+          if (error instanceof BusinessError) {
+            if (error.data?.message) {
+              handleToastError(error.data.message)
+            }
+          } else {
+            handleToastError('Ocorreu um erro, informe o suporte')
+          }
+        }
       }}
     >
       {(props: FormikProps<CreatePatientDTO>) => (
@@ -82,13 +136,12 @@ export function PatientForm({ tenantId }: Props) {
                   />
                 </div>
 
-                <div className="sm:col-span-1 flex items-center">
+                <div className="sm:col-span-2 flex gap-4 items-center">
                   <fieldset id='radio' className="flex flex-row gap-4">
                     <div className="flex items-center gap-2">
                       <RadioButton
                         name="gender"
                         value="F"
-                        defaultChecked={true}
                         label="Feminino"
                         onClick={(item) => props.values.gender = item}
                       />
@@ -97,12 +150,16 @@ export function PatientForm({ tenantId }: Props) {
                       <RadioButton
                         name="gender"
                         value="M"
-                        defaultChecked={true}
                         label="Masculino"
                         onClick={(item) => props.values.gender = item}
                       />
                     </div>
                   </fieldset>
+                  {props.touched.gender && props.errors.gender ? (
+                    <p className="text-sm text-red-600" id="email-error">
+                      {props.errors.gender}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="sm:col-span-4">
@@ -141,7 +198,8 @@ export function PatientForm({ tenantId }: Props) {
               type="submit"
               Icon={CheckIcon}
               title="Salvar"
-              loading={false}
+              loading={props.isSubmitting}
+              disabled={props.isSubmitting}
             />
           </div>
         </Form>

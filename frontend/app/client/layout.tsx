@@ -23,8 +23,6 @@ export default async function ClientLayout({ children }: Props) {
 
   const result = await response.json();
 
-  console.log(result)
-
   return (
     <>
       <div>

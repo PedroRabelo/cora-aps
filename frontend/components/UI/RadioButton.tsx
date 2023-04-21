@@ -1,7 +1,7 @@
 interface Props {
   name: string;
   value: string;
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
   label: string;
   onClick: (value: string) => void;
 }

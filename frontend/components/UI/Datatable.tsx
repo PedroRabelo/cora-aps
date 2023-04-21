@@ -1,6 +1,16 @@
+import { formatAsCpfCnpj } from "@/utils/cpfCnpjMask";
+import { formatDateOnly } from "@/utils/formatDate";
+import { formatPhoneNumber } from "@/utils/formatTelefone";
 
+type Col = {
+  alias: string;
+  title: string;
+  phoneMask: boolean;
+  dateMask: boolean;
+  cpfMask: boolean;
+}
 interface Props {
-  cols: { alias: string; title: string }[]
+  cols: Col[]
   rows: any[]
 }
 
@@ -35,10 +45,18 @@ export function Datatable({ cols, rows }: Props) {
                     {cols.map((td, index) => {
                       if (index === 0) {
                         return <td key={index} className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {data[td.alias]}
+                          {td.phoneMask && formatPhoneNumber(data[td.alias])}
+                          {td.dateMask && formatDateOnly(data[td.alias])}
+                          {td.cpfMask && formatAsCpfCnpj(data[td.alias])}
+                          {!td.phoneMask && !td.dateMask && !td.cpfMask && data[td.alias]}
                         </td>
                       } else {
-                        return <td key={index} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{data[td.alias]}</td>
+                        return <td key={index} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {td.phoneMask && formatPhoneNumber(data[td.alias])}
+                          {td.dateMask && formatDateOnly(data[td.alias])}
+                          {td.cpfMask && formatAsCpfCnpj(data[td.alias])}
+                          {!td.phoneMask && !td.dateMask && !td.cpfMask && data[td.alias]}
+                        </td>
                       }
                     })}
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
