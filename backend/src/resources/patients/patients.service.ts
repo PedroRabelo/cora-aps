@@ -3,7 +3,7 @@ import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConflictError } from 'src/common/errors/types/conflict.error';
-import { Prisma } from '@prisma/client';
+import { PatientStatus, Prisma } from '@prisma/client';
 import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
@@ -76,6 +76,19 @@ export class PatientsService {
         email: true,
         status: true,
       },
+    })
+  }
+
+  async findAllByStatus(status: PatientStatus) {
+    return await this.prisma.patient.findMany({
+      where: { status, active: true },
+      select: {
+        id: true,
+        name: true,
+        birthDate: true,
+        email: true,
+        phoneNumber: true,
+      }
     })
   }
 

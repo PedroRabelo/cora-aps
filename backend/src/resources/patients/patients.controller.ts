@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
+import { PatientStatus } from '@prisma/client';
 
 @Controller('patients')
 export class PatientsController {
@@ -20,6 +21,11 @@ export class PatientsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.patientsService.findOne(id);
+  }
+
+  @Get('/status/:status')
+  findAllByStatus(@Param('status') status: PatientStatus) {
+    return this.patientsService.findAllByStatus(status);
   }
 
   @Patch(':id')

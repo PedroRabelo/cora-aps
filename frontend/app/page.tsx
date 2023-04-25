@@ -11,6 +11,9 @@ export default function Home() {
           <Link href="/client">Acesso cliente</Link>
         </li>
         <li>
+          <Link href="/aps">Monitoramento</Link>
+        </li>
+        <li>
           <Link href="/login">Login</Link>
         </li>
       </ul>

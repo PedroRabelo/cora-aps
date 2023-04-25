@@ -1,4 +1,6 @@
 import { LoginForm } from "./LoginForm";
+import LogoSvg from "../../../public/vercel.svg"
+import Image from "next/image";
 
 export default function LoginAdmin() {
   return (
@@ -6,10 +8,10 @@ export default function LoginAdmin() {
       <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <img
+            <Image
+              src={LogoSvg}
               className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
+              alt="Logo da empresa"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Faça o login na sua conta

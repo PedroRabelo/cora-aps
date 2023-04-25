@@ -2,10 +2,10 @@ import { PageListHeader } from "@/components/PageHeader/PageListHeader";
 import { Datatable } from "@/components/UI/Datatable";
 
 const cols = [
-  { alias: 'name', title: 'Nome' },
-  { alias: 'title', title: 'Titulo' },
-  { alias: 'email', title: 'Email' },
-  { alias: 'role', title: 'Perfil' },
+  { alias: 'name', title: 'Nome', phoneMask: false, dateMask: false, cpfMask: false },
+  { alias: 'title', title: 'Titulo', phoneMask: false, dateMask: false, cpfMask: false },
+  { alias: 'email', title: 'Email', phoneMask: false, dateMask: false, cpfMask: false },
+  { alias: 'role', title: 'Perfil', phoneMask: false, dateMask: false, cpfMask: false },
 ]
 
 const people = [
