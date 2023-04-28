@@ -23,6 +23,7 @@ export default async function Evaluation() {
         <Datatable
           cols={cols}
           rows={patients}
+          pathLink="aps/evaluation"
         />
       </Suspense>
     </div>

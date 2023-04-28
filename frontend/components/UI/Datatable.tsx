@@ -1,6 +1,7 @@
 import { formatAsCpfCnpj } from "@/utils/cpfCnpjMask";
 import { formatDateOnly } from "@/utils/formatDate";
 import { formatPhoneNumber } from "@/utils/formatTelefone";
+import Link from "next/link";
 
 type Col = {
   alias: string;
@@ -10,11 +11,12 @@ type Col = {
   cpfMask: boolean;
 }
 interface Props {
-  cols: Col[]
-  rows: any[]
+  cols: Col[];
+  rows: any[];
+  pathLink: string;
 }
 
-export function Datatable({ cols, rows }: Props) {
+export function Datatable({ cols, rows, pathLink }: Props) {
   return (
     <div className="mt-8 flow-root">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -60,9 +62,9 @@ export function Datatable({ cols, rows }: Props) {
                       }
                     })}
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                      <Link href={`${pathLink}/${data.id}`} className="text-indigo-600 hover:text-indigo-900">
                         Editar<span className="sr-only">, {data.name}</span>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 ))}
