@@ -1,7 +1,17 @@
-export default function EvaluationSurvey() {
+import { Button } from "@/components/UI/Button";
+import Link from "next/link";
+
+interface Props {
+  params: { id: string };
+}
+
+export default function EvaluationSurvey({ params }: Props) {
   return (
-    <div>
-      <h1>QUestionário</h1>
-    </div>
+    <Link href={`/aps/evaluation/${params.id}/survey/general-health`}>
+      <Button
+        title="Iniciar"
+      />
+    </Link>
+
   )
 }

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const steps = [
-  { id: '01', name: 'Dados de saúde', href: 'health', status: 'current' },
+  { id: '01', name: 'Dados de saúde', href: 'health-data', status: 'current' },
   { id: '02', name: 'Questionário', href: 'survey', status: 'current' },
   { id: '03', name: 'Plano de cuidado', href: 'care', status: 'current' },
 ]
