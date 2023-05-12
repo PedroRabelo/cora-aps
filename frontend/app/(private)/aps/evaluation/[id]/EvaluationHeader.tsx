@@ -1,24 +1,18 @@
 import { Button } from "@/components/UI/Button"
+import { getPatientById } from "@/services/PatientService";
 import { calculateAge } from "@/utils/formatDate"
 import { formatPhoneNumber } from "@/utils/formatTelefone";
 import { AtSymbolIcon, CalendarIcon, PencilIcon, PhoneIcon } from "@heroicons/react/24/outline"
-
-const patient = {
-  name: 'Fulano Teste',
-  birthDate: new Date('1986-12-23'),
-  phoneNumber: '62996242983',
-  email: 'fulano@teste.com.br',
-}
 
 interface Props {
   patientId: string;
 }
 
-export function EvaluationHeader({ patientId }: Props) {
+export async function EvaluationHeader({ patientId }: Props) {
 
-  const patientPhoneNumber = patient?.phoneNumber ? formatPhoneNumber(patient.phoneNumber) : '';
+  const patient = await getPatientById(patientId)
 
-  // TODO Buscar os dados do paciente
+  const patientPhoneNumber = patient?.phoneNumber ? formatPhoneNumber(patient.phoneNumber) : ''
 
   return (
     <div className="mb-4 lg:flex lg:items-center lg:justify-between">

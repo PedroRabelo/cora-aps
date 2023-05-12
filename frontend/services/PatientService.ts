@@ -18,3 +18,11 @@ export async function listPatientsByStatus(status: string): Promise<PatientModel
 
   return await res.json()
 }
+
+export async function getPatientById(id: string): Promise<PatientModel> {
+  const options = await getOptions()
+
+  const res = await fetch(`${API_ENDPOINT}/${id}`, options)
+
+  return await res.json()
+}

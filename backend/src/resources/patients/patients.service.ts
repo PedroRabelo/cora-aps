@@ -73,6 +73,7 @@ export class PatientsService {
         name: true,
         cpf: true,
         birthDate: true,
+        phoneNumber: true,
         email: true,
         status: true,
       },

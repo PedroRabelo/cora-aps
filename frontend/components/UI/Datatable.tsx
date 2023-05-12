@@ -14,9 +14,10 @@ interface Props {
   cols: Col[];
   rows: any[];
   pathLink: string;
+  pathSuffix?: string;
 }
 
-export function Datatable({ cols, rows, pathLink }: Props) {
+export function Datatable({ cols, rows, pathLink, pathSuffix = '' }: Props) {
   return (
     <div className="mt-8 flow-root">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -62,7 +63,7 @@ export function Datatable({ cols, rows, pathLink }: Props) {
                       }
                     })}
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <Link href={`${pathLink}/${data.id}`} className="text-indigo-600 hover:text-indigo-900">
+                      <Link href={`${pathLink}/${data.id}/${pathSuffix}`} className="text-indigo-600 hover:text-indigo-900">
                         Editar<span className="sr-only">, {data.name}</span>
                       </Link>
                     </td>

@@ -115,14 +115,14 @@ model PatientHealthRecord {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  patient        Patient      @relation(fields: [patientId], references: [id])
+  patient        Patient       @relation(fields: [patientId], references: [id])
   patientId      String
-  professional   Professional @relation(fields: [professionalId], references: [id])
-  professionalId String
+  professional   Professional? @relation(fields: [professionalId], references: [id])
+  professionalId String?
 
-  startDate DateTime
-  riskGroup String
-  careLine  String
+  startDate DateTime?
+  riskGroup String?
+  careLine  String?
 
   vitalSigns PatientVitalSigns[]
   measures   PatientMeasure[]

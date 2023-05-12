@@ -1,7 +1,7 @@
 'use client'
 
-import { FormInput } from '@/components/Form/FormInput'
-import { FormInputMask } from '@/components/Form/FormInputMask'
+import { FormInput } from '@/components/FormUI/FormInput'
+import { FormInputMask } from '@/components/FormUI/FormInputMask'
 import { Button } from '@/components/UI/Button'
 import { RadioButton } from '@/components/UI/RadioButton'
 import { handleToastError, handleToastSuccess } from '@/lib/toastify'
