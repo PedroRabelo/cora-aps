@@ -126,6 +126,7 @@ model PatientHealthRecord {
 
   vitalSigns PatientVitalSigns[]
   measures   PatientMeasure[]
+  surveys    Survey[]
 
   @@map("patient_ehr")
 }
@@ -206,6 +207,88 @@ model PatientMeasureHistory {
   @@map("patient_measures_history")
 }
 
+model SurveyForm {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  title       String
+  description String?
+
+  questions SurveyQuestion[]
+  surveys   Survey[]
+
+  @@map("survey_forms")
+}
+
+model SurveyQuestion {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  question       String
+  subtitle       String?
+  order          Int
+  answerType     AnswerType
+  answersOptions SurveyAnswerOption[]
+
+  form         SurveyForm     @relation(fields: [surveyFormId], references: [id])
+  surveyFormId String
+  answers      SurveyAnswer[]
+
+  @@map("survey_questions")
+}
+
+model SurveyAnswerOption {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  answer String
+  points Int
+
+  question   SurveyQuestion @relation(fields: [questionId], references: [id])
+  questionId String
+
+  @@map("survey_answer_options")
+}
+
+model SurveyAnswer {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  answer         String
+  points         Int
+  answerOptionId Int?
+
+  question         SurveyQuestion @relation(fields: [surveyQuestionId], references: [id])
+  surveyQuestionId String
+  survey           Survey         @relation(fields: [surveyId], references: [id])
+  surveyId         String
+
+  @@map("survey_answers")
+}
+
+model Survey {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startDate DateTime
+  endDate   DateTime?
+
+  healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
+  healthRecordId String
+  surveyForm     SurveyForm          @relation(fields: [surveyFormId], references: [id])
+  surveyFormId   String
+  answers        SurveyAnswer[]
+
+  @@map("surveys")
+}
+
 enum PatientStatus {
   WAITING_CONFIRMATION
   INITIAL_EVALUATION
@@ -231,4 +314,11 @@ enum ProfessionalFunction {
   DOCTOR
   NURSE
   PSYCHOLOGY
+}
+
+enum AnswerType {
+  CHECKBOX
+  RADIO
+  TEXT
+  SELECT
 }

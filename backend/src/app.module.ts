@@ -10,6 +10,7 @@ import { ProfessionalsModule } from './resources/professionals/professionals.mod
 import { PatientsModule } from './resources/patients/patients.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { SurveysModule } from './resources/surveys/surveys.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { ConfigModule } from '@nestjs/config';
     TenantsModule,
     ProfessionalsModule,
     PatientsModule,
-    MailModule
+    MailModule,
+    SurveysModule
   ],
   controllers: [AppController],
   providers: [
