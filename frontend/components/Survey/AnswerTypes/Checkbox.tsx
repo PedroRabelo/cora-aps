@@ -1,8 +1,9 @@
+import { SurveyAnswerOption } from "@/types/Survey";
 
 type CheckboxProps = {
   questionId: string;
-  answers: string[];
-  answerChanged: (questionId: string, value: string) => void;
+  answers: SurveyAnswerOption[];
+  answerChanged: (questionId: string, answer: SurveyAnswerOption) => void;
 }
 
 export default function Checkbox({ questionId, answers, answerChanged }: CheckboxProps) {
@@ -10,23 +11,27 @@ export default function Checkbox({ questionId, answers, answerChanged }: Checkbo
     <>
       {
         answers.length > 0 && answers.map(a => (
-          <div key={a} className="relative flex items-start">
+          <div key={a.id} className="relative flex items-start">
             <div className="flex items-center h-5">
               <input
-                id={a}
+                id={a.id}
                 aria-describedby="resposta"
                 name={questionId.toString()}
                 type="checkbox"
-                value={a}
+                value={a.answer}
                 onChange={(e) => {
-                  answerChanged(questionId, e.target.value);
+                  answerChanged(questionId, {
+                    id: a.id,
+                    answer: e.target.value,
+                    points: a.points
+                  });
                 }}
                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
               />
             </div>
             <div className="ml-3 text-sm">
               <label className="font-medium text-gray-700">
-                {a}
+                {a.answer}
               </label>
             </div>
           </div>

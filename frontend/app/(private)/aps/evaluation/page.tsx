@@ -24,7 +24,7 @@ export default async function Evaluation() {
           cols={cols}
           rows={patients}
           pathLink="aps/evaluation"
-          pathSuffix="health"
+          pathSuffix="health-data"
         />
       </Suspense>
     </div>

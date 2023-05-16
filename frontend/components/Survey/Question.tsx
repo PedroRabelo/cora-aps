@@ -1,5 +1,7 @@
+'use client'
+
 import { useSurvey } from '../../contexts/SurveyContext';
-import { SurveyQuestionModel } from '../../types/Survey';
+import { SurveyAnswerOption, SurveyQuestionModel } from '../../types/Survey';
 import Checkbox from './AnswerTypes/Checkbox';
 import Option from './AnswerTypes/Option';
 import Text from './AnswerTypes/Text';
@@ -11,10 +13,12 @@ type Props = {
 export function Question({ question }: Props) {
   const { survey, pushAnswer } = useSurvey();
 
-  function answerChanged(questionId: string, value: string) {
+  function answerChanged(questionId: string, answer: SurveyAnswerOption) {
     if (survey?.id) {
       pushAnswer({
-        answer: value,
+        answer: answer.answer,
+        points: answer.points,
+        answerOptionId: answer.id,
         surveyId: survey.id,
         surveyQuestionId: questionId
       }, question.answerType);
@@ -22,12 +26,13 @@ export function Question({ question }: Props) {
   }
 
   function renderAnswerType() {
+    console.log(question)
     switch (question.answerType) {
       case 'CHECKBOX':
         return (
           <Checkbox
             questionId={question.id}
-            answers={question.answerOptions}
+            answers={question.answersOptions}
             answerChanged={answerChanged}
           />
         );
@@ -35,7 +40,7 @@ export function Question({ question }: Props) {
         return (
           <Option
             questionId={question.id}
-            answers={question.answerOptions}
+            answers={question.answersOptions}
             answerChanged={answerChanged}
           />
         );
@@ -43,12 +48,14 @@ export function Question({ question }: Props) {
         console.log('select');
         break;
       case 'TEXT':
-        return (
-          <Text
-            questionId={question.id}
-            answerChanged={answerChanged}
-          />
-        );
+        console.log('select');
+        break;
+      // return (
+      //   <Text
+      //     questionId={question.id}
+      //     answerChanged={answerChanged}
+      //   />
+      // );
       default:
         console.log('default');
     }
@@ -62,7 +69,7 @@ export function Question({ question }: Props) {
         </h3>
         <span className="text-sm text-gray-400">{question.subtitle}</span>
       </div>
-      <fieldset className="flex flex-1 flex-col mt-4">
+      <fieldset className="flex flex-1 gap-4 mt-4">
         {renderAnswerType()}
       </fieldset>
     </div>

@@ -12,6 +12,19 @@ export async function getOptions() {
   }
 }
 
+export async function postOptions(payload: any) {
+  const token = await getToken();
+
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  }
+}
+
 export async function getToken() {
   const cookieStore = cookies();
   const token = cookieStore.get('cora-jwt')?.value;

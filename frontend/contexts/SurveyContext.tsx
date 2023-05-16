@@ -1,4 +1,4 @@
-
+'use client'
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { handleToastSuccess } from '../lib/toastify';

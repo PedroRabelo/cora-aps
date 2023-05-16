@@ -2,13 +2,13 @@ export type SurveyModel = {
   id: string;
   startDate: Date;
   endDate: Date;
-  patientId: string;
+  healthRecordId: string;
   surveyFormId: string;
 }
 
 export type CreateSurveyDTO = {
   startDate: Date;
-  patientId: string;
+  healthRecordId: string;
   surveyFormId: string;
 }
 
@@ -18,11 +18,19 @@ export type SurveyQuestionModel = {
   subtitle: string;
   order: number;
   answerType: 'CHECKBOX' | 'RADIO' | 'TEXT' | 'SELECT';
-  answerOptions: string[];
+  answersOptions: SurveyAnswerOption[];
+}
+
+export type SurveyAnswerOption = {
+  id: string;
+  answer: string;
+  points: number;
 }
 
 export type SaveSurveyAnswerDTO = {
   answer: string;
+  points: number;
+  answerOptionId: string;
   surveyQuestionId: string;
   surveyId: string;
 }
