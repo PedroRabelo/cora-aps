@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePatientDto } from './dto/create-patient.dto';
-import { UpdatePatientDto } from './dto/update-patient.dto';
+import { CreatePatientDto } from '../dto/create-patient.dto';
+import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConflictError } from 'src/common/errors/types/conflict.error';
 import { PatientStatus, Prisma } from '@prisma/client';

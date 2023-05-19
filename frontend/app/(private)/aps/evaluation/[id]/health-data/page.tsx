@@ -1,10 +1,17 @@
 import { PatientVitalSignsForm } from "@/components/Forms/PatientVitalSignsForm";
 import { HealthFormContainer } from "./HealthFormContainer";
 import { PatientMeasuresForm } from "@/components/Forms/PatientMeasuresForm";
+import { findOrCreateHealthRecord } from "@/services/HealthRecordService";
 
-export default function EvaluationHealthData() {
+interface Props {
+  params: { id: string };
+}
 
-  //TODO Salvar o prontuário ao abrir a tela se não existir
+export default async function EvaluationHealthData({ params }: Props) {
+
+  const healthRecord = await findOrCreateHealthRecord({
+    patientId: params.id
+  })
 
   return (
     <>

@@ -23,12 +23,17 @@ export type CreatePatientDTO = {
   email: string;
 }
 
+export type PatientHealthRecordModel = {
+  id: string;
+  patientId: string;
+  professionalId: string;
+  startDate: string;
+  riskGroup: string;
+  careLine: string;
+}
+
 export type CreatePatientHealthRecordDTO = {
   patientId: string;
-  professionalId?: string;
-  startDate?: string;
-  riskGroup?: string;
-  careLine?: string;
 }
 
 export type CreatePatientVitalSignsDTO = {
