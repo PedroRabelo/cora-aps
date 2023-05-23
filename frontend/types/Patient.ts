@@ -38,7 +38,19 @@ export type CreatePatientHealthRecordDTO = {
 
 export type CreatePatientVitalSignsDTO = {
   healthRecordId: string;
+  temperature: number;
+  diastolicPressure: number;
+  systolicPressure: number;
+  heartRate: number;
+  respiratoryFrequency: number;
+  oxygenSaturation: number;
+}
+
+export type PatientVitalSignsModel = {
+  id: string;
+  healthRecordId: string;
   measurementDate: string;
+  measurementBy: string;
   temperature: number;
   diastolicPressure: number;
   systolicPressure: number;
@@ -49,9 +61,17 @@ export type CreatePatientVitalSignsDTO = {
 
 export type CreatePatientMeasureDTO = {
   healthRecordId: string;
-  measurementDate: string;
   height: number;
   weight: number;
-  imc: number;
+  abdominalCircumference: number;
+}
+
+export type PatientMeasureModel = {
+  id: string;
+  healthRecordId: string;
+  measurementDate: string;
+  measurementBy: string;
+  height: number;
+  weight: number;
   abdominalCircumference: number;
 }

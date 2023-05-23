@@ -1,34 +1,55 @@
 'use client'
 
-import { CreatePatientMeasureDTO, CreatePatientVitalSignsDTO } from '@/types/Patient'
+import { handleToastError, handleToastSuccess } from '@/lib/toastify'
+import { CreatePatientMeasureDTO, PatientMeasureModel } from '@/types/Patient'
+import { CheckIcon } from '@heroicons/react/24/outline'
+import { getCookie } from 'cookies-next'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { FormInput } from '../FormUI/FormInput'
-import { FormInputMask } from '../FormUI/FormInputMask'
 import { Button } from '../UI/Button'
-import { CheckIcon } from '@heroicons/react/24/outline'
 
 const schemaValidation = Yup.object({
-  measurementDate: Yup.string().required('Data de aferição obrigatória'),
+
 })
 
-export function PatientMeasuresForm() {
+interface Props {
+  healthRecordId: string;
+  measures: PatientMeasureModel;
+}
+
+export function PatientMeasuresForm({ healthRecordId, measures }: Props) {
   return (
     <Formik
       initialValues={{
-        healthRecordId: '',
-        measurementDate: '',
-        height: 0,
-        weight: 0,
-        imc: 0,
-        abdominalCircumference: 0
+        healthRecordId: healthRecordId,
+        height: measures.height ? measures.height : 0,
+        weight: measures.weight ? measures.weight : 0,
+        abdominalCircumference: measures.abdominalCircumference ? measures.abdominalCircumference : 0
       }}
       validationSchema={schemaValidation}
       onSubmit={async (
         values: CreatePatientMeasureDTO,
-        { setSubmitting, resetForm }: FormikHelpers<CreatePatientMeasureDTO>
+        { setSubmitting }: FormikHelpers<CreatePatientMeasureDTO>
       ) => {
-        console.log(values)
+        const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/patient/measures`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getCookie('cora-jwt')}`
+          },
+          body: JSON.stringify(values)
+        })
+
+        const response = await result.json()
+
+        if (response.message?.length > 0) {
+          handleToastError(response.message);
+          return;
+        }
+
+        setSubmitting(false);
+        handleToastSuccess('Medidas cadastradas com sucesso')
       }}
     >
       {(props: FormikProps<CreatePatientMeasureDTO>) => (
@@ -36,18 +57,6 @@ export function PatientMeasuresForm() {
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
             <div className="px-4 py-6 sm:p-8">
               <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div className="sm:col-span-2">
-                  <FormInputMask
-                    label="Data da aferição"
-                    name="measurementDate"
-                    mask="99/99/9999"
-                    onBlur={props.handleBlur}
-                    onChange={props.handleChange}
-                    value={props.values.measurementDate}
-                  />
-                </div>
-                <div className="sm:col-span-4"><br /></div>
-
                 <div className="sm:col-span-1">
                   <FormInput
                     label="Altura(cm)"
@@ -60,14 +69,6 @@ export function PatientMeasuresForm() {
                   <FormInput
                     label="Peso(kg)"
                     name="weight"
-                    type="number"
-                  />
-                </div>
-
-                <div className="sm:col-span-1">
-                  <FormInput
-                    label="IMC"
-                    name="imc"
                     type="number"
                   />
                 </div>

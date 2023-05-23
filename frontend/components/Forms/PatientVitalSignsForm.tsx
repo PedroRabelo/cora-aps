@@ -1,36 +1,58 @@
 'use client'
 
-import { CreatePatientVitalSignsDTO } from '@/types/Patient'
+import { handleToastError, handleToastSuccess } from '@/lib/toastify'
+import { CreatePatientVitalSignsDTO, PatientVitalSignsModel } from '@/types/Patient'
+import { CheckIcon } from '@heroicons/react/24/outline'
+import { getCookie } from 'cookies-next'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { FormInput } from '../FormUI/FormInput'
-import { FormInputMask } from '../FormUI/FormInputMask'
 import { Button } from '../UI/Button'
-import { CheckIcon } from '@heroicons/react/24/outline'
 
 const schemaValidation = Yup.object({
-  measurementDate: Yup.string().required('Data de aferição obrigatória'),
+
 })
 
-export function PatientVitalSignsForm() {
+interface Props {
+  healthRecordId: string;
+  vitalSigns: PatientVitalSignsModel
+}
+
+export function PatientVitalSignsForm({ healthRecordId, vitalSigns }: Props) {
   return (
     <Formik
       initialValues={{
-        healthRecordId: '',
-        measurementDate: '',
-        temperature: 0,
-        diastolicPressure: 0,
-        systolicPressure: 0,
-        heartRate: 0,
-        respiratoryFrequency: 0,
-        oxygenSaturation: 0
+        healthRecordId: healthRecordId,
+        temperature: vitalSigns.temperature ? vitalSigns.temperature : 0,
+        diastolicPressure: vitalSigns.diastolicPressure ? vitalSigns.diastolicPressure : 0,
+        systolicPressure: vitalSigns.systolicPressure ? vitalSigns.systolicPressure : 0,
+        heartRate: vitalSigns.heartRate ? vitalSigns.heartRate : 0,
+        respiratoryFrequency: vitalSigns.respiratoryFrequency ? vitalSigns.respiratoryFrequency : 0,
+        oxygenSaturation: vitalSigns.oxygenSaturation ? vitalSigns.oxygenSaturation : 0
       }}
       validationSchema={schemaValidation}
       onSubmit={async (
         values: CreatePatientVitalSignsDTO,
-        { setSubmitting, resetForm }: FormikHelpers<CreatePatientVitalSignsDTO>
+        { setSubmitting }: FormikHelpers<CreatePatientVitalSignsDTO>
       ) => {
-        console.log(values)
+        const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/patient/vital-signs`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getCookie('cora-jwt')}`
+          },
+          body: JSON.stringify(values)
+        })
+
+        const response = await result.json()
+
+        if (response.message?.length > 0) {
+          handleToastError(response.message);
+          return;
+        }
+
+        setSubmitting(false);
+        handleToastSuccess('Sinais vitais cadastrados com sucesso')
       }}
     >
       {(props: FormikProps<CreatePatientVitalSignsDTO>) => (
@@ -38,18 +60,6 @@ export function PatientVitalSignsForm() {
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
             <div className="px-4 py-6 sm:p-8">
               <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div className="sm:col-span-2">
-                  <FormInputMask
-                    label="Data da aferição"
-                    name="measurementDate"
-                    mask="99/99/9999"
-                    onBlur={props.handleBlur}
-                    onChange={props.handleChange}
-                    value={props.values.measurementDate}
-                  />
-                </div>
-                <div className="sm:col-span-4"><br /></div>
-
                 <div className="sm:col-span-2">
                   <FormInput
                     label="Temperatura (ºC)"
@@ -69,7 +79,7 @@ export function PatientVitalSignsForm() {
                 <div className="sm:col-span-2">
                   <FormInput
                     label="Pressão Sistólica(mm/Hg)"
-                    name="diastolicPressure"
+                    name="systolicPressure"
                     type="number"
                   />
                 </div>

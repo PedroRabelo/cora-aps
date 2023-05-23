@@ -36,4 +36,12 @@ export class VitalSignsService {
       }
     })
   }
+
+  async findByHealthRecord(healthRecordId: string) {
+    return await this.prismaService.patientVitalSigns.findFirst({
+      where: {
+        healthRecordId
+      }
+    })
+  }
 }
