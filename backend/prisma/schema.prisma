@@ -214,6 +214,7 @@ model SurveyForm {
   active    Boolean  @default(true)
 
   title       String
+  alias       String?
   description String?
 
   questions SurveyQuestion[]
@@ -262,7 +263,7 @@ model SurveyAnswer {
 
   answer         String
   points         Int
-  answerOptionId Int?
+  answerOptionId String?
 
   question         SurveyQuestion @relation(fields: [surveyQuestionId], references: [id])
   surveyQuestionId String

@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { EvaluationHeader } from "./EvaluationHeader";
 import EvaluationSteps from "./EvaluationSteps";
+import { EvaluationProviders } from "./providers";
 
 interface Props extends PropsWithChildren {
   params: { id: string };
@@ -8,7 +9,7 @@ interface Props extends PropsWithChildren {
 
 export default function EvaluationLayout({ params, children }: Props) {
   return (
-    <div>
+    <EvaluationProviders>
       {/* @ts-expect-error Server Component */}
       <EvaluationHeader patientId={params.id} />
       <div className="flex flex-col items-center pb-2">
@@ -18,6 +19,6 @@ export default function EvaluationLayout({ params, children }: Props) {
       <div className="mx-auto py-6">
         {children}
       </div>
-    </div>
+    </EvaluationProviders>
   )
 }

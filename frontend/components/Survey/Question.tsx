@@ -8,25 +8,25 @@ import Text from './AnswerTypes/Text';
 
 type Props = {
   question: SurveyQuestionModel;
+  surveyId: string
 }
 
-export function Question({ question }: Props) {
-  const { survey, pushAnswer } = useSurvey();
+export function Question({ question, surveyId }: Props) {
+  const { pushAnswer } = useSurvey();
 
   function answerChanged(questionId: string, answer: SurveyAnswerOption) {
-    if (survey?.id) {
+    if (surveyId) {
       pushAnswer({
         answer: answer.answer,
         points: answer.points,
         answerOptionId: answer.id,
-        surveyId: survey.id,
+        surveyId: surveyId,
         surveyQuestionId: questionId
       }, question.answerType);
     }
   }
 
   function renderAnswerType() {
-    console.log(question)
     switch (question.answerType) {
       case 'CHECKBOX':
         return (

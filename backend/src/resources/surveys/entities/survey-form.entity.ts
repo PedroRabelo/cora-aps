@@ -6,5 +6,6 @@ export class SurveyFormEntity implements SurveyForm {
   updatedAt: Date;
   active: boolean;
   title: string;
+  alias: string;
   description: string;
 }

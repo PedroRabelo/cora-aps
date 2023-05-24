@@ -1,5 +1,5 @@
 import { getOptions, postOptions } from "@/lib/auth";
-import { CreateSurveyDTO } from "@/types/Survey";
+import { CreateSurveyDTO, SaveSurveyAnswerDTO, SurveyModel } from "@/types/Survey";
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/surveys`
 
@@ -11,11 +11,33 @@ export async function createSurvey(survey: CreateSurveyDTO) {
   return await res.json()
 }
 
-export async function ListAllSurveysForm() {
+export async function getSurveyByHealthRecordAndAlias(healthRecordId: string, alias: string) {
+  const options = await getOptions()
+
+  const res = await fetch(`${API_ENDPOINT}/survey/${healthRecordId}/${alias}`, options)
+
+  if (res.status === 404) {
+    return null
+  }
+  return await res.json()
+}
+
+export async function listAllSurveysForm() {
   const options = await getOptions()
 
   const res = await fetch(`${API_ENDPOINT}/forms`, options)
 
+  return await res.json()
+}
+
+export async function getSurveyFormByAlias(alias: string) {
+  const options = await getOptions()
+
+  const res = await fetch(`${API_ENDPOINT}/forms/${alias}`, options)
+
+  if (res.status === 404) {
+    return null
+  }
   return await res.json()
 }
 

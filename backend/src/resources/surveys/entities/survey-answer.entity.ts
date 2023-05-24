@@ -6,7 +6,7 @@ export class SurveyAnswerEntity implements SurveyAnswer {
   updatedAt: Date;
   answer: string;
   points: number;
-  answerOptionId: number;
+  answerOptionId: string;
   surveyQuestionId: string;
   surveyId: string;
 }

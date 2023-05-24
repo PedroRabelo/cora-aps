@@ -5,13 +5,12 @@ interface Props {
   params: { id: string };
 }
 
-export default function EvaluationSurvey({ params }: Props) {
+export default async function EvaluationSurvey({ params }: Props) {
   return (
     <Link href={`/aps/evaluation/${params.id}/survey/general-health`}>
       <Button
         title="Iniciar"
       />
-    </Link>
-
+    </Link >
   )
 }

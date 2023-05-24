@@ -17,6 +17,8 @@ export function Button(
     loading = false,
     title,
     type,
+    disabled,
+    onClick,
     ...rest
   }: Props) {
   return (
@@ -25,6 +27,7 @@ export function Button(
         <button
           type={type}
           className="rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={onClick}
           {...rest}
         >
           {Icon && (
@@ -39,7 +42,8 @@ export function Button(
           className={clsx(outline ? "text-black bg-white hover:bg-gray-100" : "text-white  bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600",
             "inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
           )}
-          disabled={loading}
+          disabled={disabled}
+          onClick={onClick}
         >
           {title}
           {loading && (

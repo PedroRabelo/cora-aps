@@ -12,6 +12,16 @@ export class SurveysController {
     return this.surveysService.create(createSurveyDto);
   }
 
+  @Get('survey/:healthRecordId/:alias')
+  findSurvey(@Param('healthRecordId') healthRecordId: string, @Param('alias') alias: string) {
+    return this.surveysService.findSurveyByHealthRecordAndAlias(healthRecordId, alias);
+  }
+
+  @Get('forms/:alias')
+  getSurveysFormByAlias(@Param('alias') alias: string) {
+    return this.surveysService.getSurveysFormByAlias(alias);
+  }
+
   @Get('forms')
   getAllSurveysForm() {
     return this.surveysService.getSurveysForm();

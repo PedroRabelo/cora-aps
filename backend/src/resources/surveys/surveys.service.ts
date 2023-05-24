@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSurveyDto } from './dto/create-survey.dto';
 import { SaveAnwserDTO } from './dto/save-answers.dto';
@@ -14,10 +14,41 @@ export class SurveysService {
     });
   }
 
+  async findSurveyByHealthRecordAndAlias(healthRecordId: string, alias: string) {
+    const res = await this.prisma.survey.findFirst({
+      where: {
+        healthRecordId,
+        endDate: null,
+        surveyForm: {
+          alias
+        }
+      }
+    })
+
+    if (res === null) {
+      throw new NotFoundException();
+    }
+
+    return res
+  }
+
   async getSurveysForm() {
     return await this.prisma.surveyForm.findMany({
       where: {
         active: true
+      },
+      select: {
+        id: true,
+        title: true,
+      }
+    })
+  }
+
+  async getSurveysFormByAlias(alias: string) {
+    return await this.prisma.surveyForm.findFirst({
+      where: {
+        active: true,
+        alias
       },
       select: {
         id: true,

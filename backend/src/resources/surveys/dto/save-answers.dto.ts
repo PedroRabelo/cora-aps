@@ -8,9 +8,9 @@ export class SaveAnwserDTO extends SurveyAnswerEntity {
   @IsNumber()
   points: number;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  answerOptionId: number;
+  answerOptionId: string;
 
   @IsString()
   surveyQuestionId: string;

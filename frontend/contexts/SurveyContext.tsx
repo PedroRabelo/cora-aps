@@ -1,8 +1,9 @@
 'use client'
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
-import { handleToastSuccess } from '../lib/toastify';
+import { handleToastError, handleToastSuccess } from '../lib/toastify';
 import { SaveSurveyAnswerDTO, SurveyModel } from '../types/Survey';
+import { getCookie } from 'cookies-next';
 
 type ContextProps = {
   pushAnswer: (answer: SaveSurveyAnswerDTO, questionType: string) => void;
@@ -80,16 +81,50 @@ function SurveyProvider({ children }: FormProviderProps) {
       if (survey?.id) {
         setIsLoading(true);
 
-        //await saveAnswers(surveyAnswers);
-        //await endSurvey(survey?.id);
-        setSurvey(undefined);
+        await saveAnswers(surveyAnswers);
+        await endSurvey(survey?.id);
 
-        handleToastSuccess('Pesquisa finalizada com sucesso');
+        handleToastSuccess('Questionário salvo com sucesso.');
         setIsLoading(false);
       }
     } catch (error: any) {
+      console.log(error)
       setIsLoading(false);
       throw new Error(error.response.data.message);
+    }
+  }
+
+  async function saveAnswers(surveyAnswers: SaveSurveyAnswerDTO[]) {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/surveys/answers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getCookie('cora-jwt')}`
+      },
+      body: JSON.stringify(surveyAnswers)
+    })
+
+    if (result.status >= 400) {
+      const response = await result.json()
+      handleToastError(response.message);
+      return;
+    }
+  }
+
+  async function endSurvey(surveyId: string) {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/surveys/end/${surveyId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getCookie('cora-jwt')}`
+      },
+      body: JSON.stringify(surveyAnswers)
+    })
+
+    if (result.status >= 400) {
+      const response = await result.json()
+      handleToastError(response.message);
+      return;
     }
   }
 
