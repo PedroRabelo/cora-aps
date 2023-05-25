@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateHealthRecordDTO } from "../dto/create-health-record.dto";
+import { AddRiskFactorDTO } from "../dto/add-risk-factor.dto";
 
 @Injectable()
 export class HealthRecordService {
@@ -29,5 +30,11 @@ export class HealthRecordService {
 
   async listAll() {
     return await this.prisma.patientHealthRecord.findMany()
+  }
+
+  async addRiskFactor(addRiskFactorDTO: AddRiskFactorDTO) {
+    return await this.prisma.patientRiskFactor.create({
+      data: addRiskFactorDTO
+    })
   }
 }

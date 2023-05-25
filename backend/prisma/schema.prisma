@@ -121,12 +121,12 @@ model PatientHealthRecord {
   professionalId String?
 
   startDate DateTime?
-  riskGroup String?
-  careLine  String?
 
-  vitalSigns PatientVitalSigns[]
-  measures   PatientMeasure[]
-  surveys    Survey[]
+  vitalSigns  PatientVitalSigns[]
+  measures    PatientMeasure[]
+  surveys     Survey[]
+  riskFactors PatientRiskFactor[]
+  carePlans   PatientCarePlan[]
 
   @@map("patient_ehr")
 }
@@ -290,6 +290,58 @@ model Survey {
   @@map("surveys")
 }
 
+model PatientCarePlan {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startDate  DateTime
+  endDate    DateTime?
+  complexity CareComplexity
+  careLine   CareLine       @relation(fields: [careLineId], references: [id])
+  careLineId String
+
+  healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
+  healthRecordId String
+
+  @@map("patient_care_plan")
+}
+
+model PatientRiskFactor {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
+  healthRecordId String
+  riskFactor     RiskFactor          @relation(fields: [riskFactorId], references: [id])
+  riskFactorId   String
+
+  @@map("patient_risk_factors")
+}
+
+model RiskFactor {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name     String
+  patients PatientRiskFactor[]
+
+  @@map("risk_factors")
+}
+
+model CareLine {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name      String
+  carePlans PatientCarePlan[]
+
+  @@map("care_lines")
+}
+
 enum PatientStatus {
   WAITING_CONFIRMATION
   INITIAL_EVALUATION
@@ -322,4 +374,10 @@ enum AnswerType {
   RADIO
   TEXT
   SELECT
+}
+
+enum CareComplexity {
+  HIGH
+  MEDIUM
+  LOW
 }

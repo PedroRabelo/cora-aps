@@ -7,6 +7,8 @@ import { VitalSignsController } from './controllers/vital-signs.controller';
 import { VitalSignsService } from './services/vital-signs.service';
 import { MeasuresController } from './controllers/measures.controller';
 import { MeasuresService } from './services/measures.service';
+import { CarePlanController } from './controllers/care-plan.controller';
+import { CarePlanService } from './services/care-plan.service';
 
 @Module({
   controllers: [
@@ -14,12 +16,14 @@ import { MeasuresService } from './services/measures.service';
     HealthRecordController,
     VitalSignsController,
     MeasuresController,
+    CarePlanController
   ],
   providers: [
     PatientsService,
     HealthRecordService,
     VitalSignsService,
-    MeasuresService
+    MeasuresService,
+    CarePlanService
   ]
 })
 export class PatientsModule { }
