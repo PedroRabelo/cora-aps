@@ -32,9 +32,46 @@ export class HealthRecordService {
     return await this.prisma.patientHealthRecord.findMany()
   }
 
+  async listAllRiskFactor() {
+    return await this.prisma.riskFactor.findMany({
+      select: {
+        id: true,
+        name: true
+      },
+      orderBy: {
+        name: 'asc'
+      }
+    })
+  }
+
   async addRiskFactor(addRiskFactorDTO: AddRiskFactorDTO) {
     return await this.prisma.patientRiskFactor.create({
       data: addRiskFactorDTO
+    })
+  }
+
+  async findAllRiskFactorByHealthRecord(id: string) {
+    return await this.prisma.patientRiskFactor.findMany({
+      where: {
+        healthRecordId: id
+      },
+      select: {
+        id: true,
+        riskFactor: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
+    })
+  }
+
+  async removeHealthRecordRiskFactor(id: string) {
+    await this.prisma.patientRiskFactor.delete({
+      where: {
+        id
+      }
     })
   }
 }

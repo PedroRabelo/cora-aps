@@ -1,5 +1,5 @@
 import { postOptions } from "@/lib/auth";
-import { CreatePatientHealthRecordDTO } from "@/types/Patient";
+import { CreatePatientHealthRecordDTO } from "@/types/HealthRecord";
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/patient/health-record`
 

@@ -2,7 +2,7 @@ import { SurveyForm } from "@/components/Survey/SurveyForm";
 import { Spinner } from "@/components/UI/Spinner";
 import { findOrCreateHealthRecord } from "@/services/HealthRecordService";
 import { createSurvey, getSurveyByHealthRecordAndAlias, getSurveyFormByAlias, listSurveyQuestions } from "@/services/SurveyService";
-import { PatientHealthRecordModel } from "@/types/Patient";
+import { PatientHealthRecordModel } from "@/types/HealthRecord";
 import { SurveyFormModel, SurveyModel, SurveyQuestionModel } from "@/types/Survey";
 import { Suspense } from "react";
 interface Props {

@@ -1,7 +1,7 @@
 'use client'
 
 import { handleToastError, handleToastSuccess } from '@/lib/toastify'
-import { CreatePatientMeasureDTO, PatientMeasureModel } from '@/types/Patient'
+import { CreatePatientMeasureDTO, PatientMeasureModel } from '@/types/HealthRecord'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { getCookie } from 'cookies-next'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'

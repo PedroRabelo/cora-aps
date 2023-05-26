@@ -2,7 +2,7 @@ import { PatientVitalSignsForm } from "@/components/Forms/PatientVitalSignsForm"
 import { HealthFormContainer } from "./HealthFormContainer";
 import { PatientMeasuresForm } from "@/components/Forms/PatientMeasuresForm";
 import { findOrCreateHealthRecord } from "@/services/HealthRecordService";
-import { PatientHealthRecordModel } from "@/types/Patient";
+import { PatientHealthRecordModel } from "@/types/HealthRecord";
 import { getVitalSignsByHealthRecord } from "@/services/VitalSignsService";
 import { getMeasuresByHealthRecord } from "@/services/MeasuresService";
 
