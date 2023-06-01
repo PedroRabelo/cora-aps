@@ -3,6 +3,7 @@ import { findOrCreateHealthRecord } from "@/services/HealthRecordService";
 import { PatientHealthRecordModel } from "@/types/HealthRecord";
 import { ArrowDownIcon, ArrowUpIcon, HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+import { CreateCarePlanForm } from "./CreateCarePlanForm";
 
 const stats = [
   { name: 'Saúde Geral', points: '22', result: 'Muito Bom', changeType: 'increase' },
@@ -66,7 +67,9 @@ export default async function EvaluationCarePlan({ params }: Props) {
           />
         </div>
         <div className="w-full rounded-lg bg-white shadow p-4">
-          <h1>Plano de cuidado</h1>
+          <CreateCarePlanForm
+            healthRecordId={healthRecord.id}
+          />
         </div>
       </div>
     </div>

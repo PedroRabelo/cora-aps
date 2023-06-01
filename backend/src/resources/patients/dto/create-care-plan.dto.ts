@@ -1,6 +1,6 @@
 import { CareComplexity } from "@prisma/client";
 import { PatientCarePlanEntity } from "../entities/patient-care-plan.entity";
-import { IsDate, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class CreateCarePlanDTO extends PatientCarePlanEntity {
   @IsDate()
@@ -14,4 +14,8 @@ export class CreateCarePlanDTO extends PatientCarePlanEntity {
 
   @IsString()
   healthRecordId: string;
+
+  @IsString()
+  @IsOptional()
+  description: string;
 }

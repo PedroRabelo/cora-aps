@@ -295,11 +295,12 @@ model PatientCarePlan {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  startDate  DateTime
-  endDate    DateTime?
-  complexity CareComplexity
-  careLine   CareLine       @relation(fields: [careLineId], references: [id])
-  careLineId String
+  startDate   DateTime
+  endDate     DateTime?
+  complexity  CareComplexity
+  careLine    CareLine       @relation(fields: [careLineId], references: [id])
+  careLineId  String
+  description String?
 
   healthRecord   PatientHealthRecord @relation(fields: [healthRecordId], references: [id])
   healthRecordId String

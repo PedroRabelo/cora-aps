@@ -71,6 +71,7 @@ export type CreateCarePlanDTO = {
   complexity: PatientStatusType;
   careLineId: string;
   healthRecordId: string;
+  description: string;
 }
 
 let CareComplexity: {

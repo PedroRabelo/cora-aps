@@ -8,5 +8,6 @@ export class PatientCarePlanEntity implements PatientCarePlan {
   endDate: Date;
   complexity: CareComplexity;
   careLineId: string;
+  description: string;
   healthRecordId: string;
 }

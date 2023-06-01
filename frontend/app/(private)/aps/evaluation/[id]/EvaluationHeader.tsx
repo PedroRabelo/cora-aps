@@ -35,15 +35,6 @@ export async function EvaluationHeader({ patientId }: Props) {
           </div>
         </div>
       </div>
-      <div className="mt-5 flex lg:mt-0 lg:ml-4">
-        <span className="ml-3 hidden sm:block">
-          <Button
-            type="button"
-            Icon={PencilIcon}
-            title="Editar"
-          />
-        </span>
-      </div>
     </div>
   )
 }

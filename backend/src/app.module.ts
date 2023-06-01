@@ -11,6 +11,7 @@ import { PatientsModule } from './resources/patients/patients.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { SurveysModule } from './resources/surveys/surveys.module';
+import { CareLineModule } from './resources/care-line/care-line.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { SurveysModule } from './resources/surveys/surveys.module';
     ProfessionalsModule,
     PatientsModule,
     MailModule,
-    SurveysModule
+    SurveysModule,
+    CareLineModule
   ],
   controllers: [AppController],
   providers: [
