@@ -8,4 +8,7 @@ export class SurveyFormEntity implements SurveyForm {
   title: string;
   alias: string;
   description: string;
+  resultLowRisk: number;
+  resultMediumRisk: number;
+  resultHighRisk: number;
 }

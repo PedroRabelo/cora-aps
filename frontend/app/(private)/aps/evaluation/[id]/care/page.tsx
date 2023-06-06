@@ -4,12 +4,7 @@ import { PatientHealthRecordModel } from "@/types/HealthRecord";
 import { ArrowDownIcon, ArrowUpIcon, HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { CreateCarePlanForm } from "./CreateCarePlanForm";
-
-const stats = [
-  { name: 'Saúde Geral', points: '22', result: 'Muito Bom', changeType: 'increase' },
-  { name: 'Hábitos de Vida', points: '12', result: 'Bom', changeType: 'increase' },
-  { name: 'Saúde Mental', points: '54', result: 'Ruim', changeType: 'decrease' },
-]
+import { sumSurveyPoints } from "@/services/SurveyService";
 
 interface Props {
   params: { id: string };
@@ -20,6 +15,16 @@ export default async function EvaluationCarePlan({ params }: Props) {
   const healthRecord: PatientHealthRecordModel = await findOrCreateHealthRecord({
     patientId: params.id
   })
+
+  const generalPoints = await sumSurveyPoints(healthRecord.id, 'general-health')
+  const habitsPoints = await sumSurveyPoints(healthRecord.id, 'habits')
+  const mentalPoints = await sumSurveyPoints(healthRecord.id, 'mental-health')
+
+  const stats = [
+    { name: 'Saúde Geral', points: generalPoints.points, result: generalPoints.result },
+    { name: 'Hábitos de Vida', points: habitsPoints.points, result: habitsPoints.result },
+    { name: 'Saúde Mental', points: mentalPoints.points, result: mentalPoints.result },
+  ]
 
   return (
     <div>
@@ -36,11 +41,11 @@ export default async function EvaluationCarePlan({ params }: Props) {
 
                 <div
                   className={clsx(
-                    item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                    item.result === 'Baixo Risco' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
                     'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
                   )}
                 >
-                  {item.changeType === 'increase' ? (
+                  {item.result === 'Baixo Risco' ? (
                     <HandThumbUpIcon
                       className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
                       aria-hidden="true"
@@ -52,7 +57,6 @@ export default async function EvaluationCarePlan({ params }: Props) {
                     />
                   )}
 
-                  <span className="sr-only"> {item.changeType === 'increase' ? 'Increased' : 'Decreased'} by </span>
                   {item.result}
                 </div>
               </dd>

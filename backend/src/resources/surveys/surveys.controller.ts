@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateSurveyDto } from './dto/create-survey.dto';
 import { SaveAnwserDTO } from './dto/save-answers.dto';
 import { SurveysService } from './surveys.service';
@@ -40,5 +40,10 @@ export class SurveysController {
   @Patch('end/:surveyId')
   endSurvey(@Param('surveyId') surveyId: string) {
     return this.surveysService.endSurvey(surveyId);
+  }
+
+  @Get('answers-points')
+  calcAnswersPoints(@Query('healthRecordId') healthRecordId: string, @Query('alias') alias: string) {
+    return this.surveysService.calcSurveyPoints(healthRecordId, alias);
   }
 }

@@ -48,3 +48,15 @@ export async function listSurveyQuestions(surveyFormId: string) {
 
   return await res.json()
 }
+
+export async function sumSurveyPoints(healthRecordId: string, alias: string) {
+  const options = await getOptions()
+
+  const params = new URLSearchParams()
+  params.append("healthRecordId", healthRecordId)
+  params.append("alias", alias)
+
+  const res = await fetch(`${API_ENDPOINT}/answers-points?${params}`, options)
+
+  return await res.json()
+}

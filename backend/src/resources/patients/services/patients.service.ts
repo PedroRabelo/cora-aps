@@ -106,6 +106,17 @@ export class PatientsService {
     return updatedPatient;
   }
 
+  async changeStatus(id: string, status: PatientStatus) {
+    await this.prisma.patient.update({
+      where: {
+        id
+      },
+      data: {
+        status
+      }
+    })
+  }
+
   remove(id: number) {
     return `This action removes a #${id} patient`;
   }

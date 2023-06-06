@@ -213,9 +213,12 @@ model SurveyForm {
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  title       String
-  alias       String?
-  description String?
+  title            String
+  alias            String?
+  description      String?
+  resultLowRisk    Int?
+  resultMediumRisk Int?
+  resultHighRisk   Int?
 
   questions SurveyQuestion[]
   surveys   Survey[]
@@ -288,6 +291,22 @@ model Survey {
   answers        SurveyAnswer[]
 
   @@map("surveys")
+}
+
+model SurveyHistory {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startDate DateTime
+  endDate   DateTime?
+
+  surveyId       String
+  healthRecordId String
+  surveyFormId   String
+
+  @@index([healthRecordId])
+  @@map("survey_history")
 }
 
 model PatientCarePlan {
