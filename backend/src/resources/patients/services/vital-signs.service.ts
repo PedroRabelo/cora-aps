@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { NotFoundError } from "src/common/errors/types/notFound.error";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateVitalSignsDTO } from "../dto/create-vital-signs.dto";
 
@@ -38,10 +39,14 @@ export class VitalSignsService {
   }
 
   async findByHealthRecord(healthRecordId: string) {
-    return await this.prismaService.patientVitalSigns.findFirst({
+    const data = await this.prismaService.patientVitalSigns.findFirst({
       where: {
         healthRecordId
       }
     })
+
+    if (data === null) throw new NotFoundError('Nenhum registro encontrado')
+
+    return data
   }
 }

@@ -11,5 +11,9 @@ export async function getMeasuresByHealthRecord(healthRecordId: string) {
     }
   });
 
+  if (response.status === 404) {
+    return null
+  }
+
   return await response.json();
 }

@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateMeasureDTO } from "../dto/create-measure.dto";
+import { NotFoundError } from "src/common/errors/types/notFound.error";
 
 @Injectable()
 export class MeasuresService {
@@ -42,10 +43,14 @@ export class MeasuresService {
   }
 
   async findByHealthRecord(healthRecordId: string) {
-    return await this.prismaService.patientMeasure.findFirst({
+    const data = await this.prismaService.patientMeasure.findFirst({
       where: {
         healthRecordId
       }
     })
+
+    if (data === null) throw new NotFoundError('Nenhum registro encontrado')
+
+    return data
   }
 }

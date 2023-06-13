@@ -23,9 +23,9 @@ export function PatientMeasuresForm({ healthRecordId, measures }: Props) {
     <Formik
       initialValues={{
         healthRecordId: healthRecordId,
-        height: measures.height ? measures.height : 0,
-        weight: measures.weight ? measures.weight : 0,
-        abdominalCircumference: measures.abdominalCircumference ? measures.abdominalCircumference : 0
+        height: measures?.height ? measures.height : 0,
+        weight: measures?.weight ? measures.weight : 0,
+        abdominalCircumference: measures?.abdominalCircumference ? measures.abdominalCircumference : 0
       }}
       validationSchema={schemaValidation}
       onSubmit={async (

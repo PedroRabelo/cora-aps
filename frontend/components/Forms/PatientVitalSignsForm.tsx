@@ -23,12 +23,12 @@ export function PatientVitalSignsForm({ healthRecordId, vitalSigns }: Props) {
     <Formik
       initialValues={{
         healthRecordId: healthRecordId,
-        temperature: vitalSigns.temperature ? vitalSigns.temperature : 0,
-        diastolicPressure: vitalSigns.diastolicPressure ? vitalSigns.diastolicPressure : 0,
-        systolicPressure: vitalSigns.systolicPressure ? vitalSigns.systolicPressure : 0,
-        heartRate: vitalSigns.heartRate ? vitalSigns.heartRate : 0,
-        respiratoryFrequency: vitalSigns.respiratoryFrequency ? vitalSigns.respiratoryFrequency : 0,
-        oxygenSaturation: vitalSigns.oxygenSaturation ? vitalSigns.oxygenSaturation : 0
+        temperature: vitalSigns?.temperature ? vitalSigns.temperature : 0,
+        diastolicPressure: vitalSigns?.diastolicPressure ? vitalSigns.diastolicPressure : 0,
+        systolicPressure: vitalSigns?.systolicPressure ? vitalSigns.systolicPressure : 0,
+        heartRate: vitalSigns?.heartRate ? vitalSigns.heartRate : 0,
+        respiratoryFrequency: vitalSigns?.respiratoryFrequency ? vitalSigns.respiratoryFrequency : 0,
+        oxygenSaturation: vitalSigns?.oxygenSaturation ? vitalSigns.oxygenSaturation : 0
       }}
       validationSchema={schemaValidation}
       onSubmit={async (

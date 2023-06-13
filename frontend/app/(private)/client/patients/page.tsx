@@ -31,6 +31,7 @@ export default async function Patients({ searchParams }: { [key: string]: string
         <Datatable
           cols={cols}
           rows={patients}
+          pathLink="client/patients/edit"
         />
       </Suspense>
     </div>

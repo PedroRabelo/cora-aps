@@ -56,6 +56,8 @@ export class PatientsService {
         birthDate: true,
         email: true,
         status: true,
+        phoneNumber: true,
+        gender: true,
       },
       orderBy: {
         name: 'desc'

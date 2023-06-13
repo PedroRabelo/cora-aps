@@ -11,5 +11,9 @@ export async function getVitalSignsByHealthRecord(healthRecordId: string) {
     }
   });
 
-  return await response.json();
+  if (response.status === 404) {
+    return null
+  }
+
+  return await response.json()
 }
