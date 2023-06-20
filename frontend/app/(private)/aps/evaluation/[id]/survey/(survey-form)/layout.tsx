@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import SurveySteps from "./SurveySteps";
+import { SurveySteps } from "./SurveySteps";
 
 interface Props extends PropsWithChildren {
   params: { id: string };

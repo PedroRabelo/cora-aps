@@ -25,7 +25,7 @@ export function formatDateJson(responseDate?: string) {
   return '';
 }
 
-export function calculateAge(responseDate?: Date) {
+export function calculateAge(responseDate?: Date | string) {
   if (responseDate) {
     const date = new Date(responseDate);
     return differenceInYears(new Date(), date);

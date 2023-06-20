@@ -7,7 +7,7 @@ interface Props {
   patientId: string;
 }
 
-export async function EvaluationHeader({ patientId }: Props) {
+export async function PatientHeader({ patientId }: Props) {
 
   const patient = await getPatientById(patientId)
 

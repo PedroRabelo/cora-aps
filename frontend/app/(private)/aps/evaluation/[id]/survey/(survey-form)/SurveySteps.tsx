@@ -14,7 +14,7 @@ interface Props {
   patientId: string
 }
 
-export default function SurveySteps({ patientId }: Props) {
+export function SurveySteps({ patientId }: Props) {
   const pathname = usePathname();
 
   const URL = `/aps/evaluation/${patientId}/survey`

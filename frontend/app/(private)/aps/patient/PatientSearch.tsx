@@ -1,11 +1,13 @@
 'use client'
 
+import { Button } from '@/components/UI/Button'
 import { PatientModel, patientStatus } from '@/types/Patient'
 import { formatPhoneNumber } from '@/utils/formatTelefone'
 import { Combobox } from '@headlessui/react'
 import { ChevronRightIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { useState } from 'react'
 
 interface Props {
@@ -63,7 +65,7 @@ export default function PatientSearch({ patients }: Props) {
                         {({ active }) => (
                           <>
                             <span className="flex items-center justify-center h-6 w-6 rounded-full bg-gray-800 text-white">
-                              P
+                              {person?.name.substring(0, 1)}
                             </span>
                             <span className="ml-3 flex-auto truncate">{person?.name}</span>
                             {active && (
@@ -82,7 +84,7 @@ export default function PatientSearch({ patients }: Props) {
                 {activeOption && (
                   <div className="hidden max-h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sm:flex">
                     <div className="flex-none p-6 text-center">
-                      <span className="flex items-center justify-center mx-auto h-16 w-16 rounded-full bg-gray-800 text-white">
+                      <span className="flex items-center justify-center text-2xl mx-auto h-16 w-16 rounded-full bg-gray-800 text-white">
                         {activeOption?.name.substring(0, 1)}
                       </span>
                       <h2 className="mt-3 font-semibold text-gray-900">{activeOption?.name}</h2>
@@ -101,12 +103,16 @@ export default function PatientSearch({ patients }: Props) {
                           </a>
                         </dd>
                       </dl>
-                      <button
-                        type="button"
-                        className="mt-6 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      <Link
+                        href={`patient/${activeOption.id}/summary`}
                       >
-                        Abrir prontuário
-                      </button>
+                        <Button
+                          type="button"
+                          title="Abrir prontuário"
+                          className="w-full justify-center"
+                        />
+                      </Link>
+
                     </div>
                   </div>
                 )}
